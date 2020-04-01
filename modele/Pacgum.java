@@ -5,19 +5,16 @@
  */
 package modele;
 
-import java.util.Random;
-
-
 
 /**
  *
  * @author fred
  */
-public class Pacman extends Entite {
+public class Pacgum extends Entite {
 
-    public Pacman(Jeu _jeu) {
+    public Pacgum(Jeu _jeu) {
         super(_jeu);
-        d = Direction.droite;
+        d = Direction.none;
 
     }
     

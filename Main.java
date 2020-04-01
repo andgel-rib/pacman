@@ -1,5 +1,5 @@
 
-import VueControleur.VueControleurPacMan;
+import VueControleur.*;
 import modele.Jeu;
 import modele.Pacman;
 
@@ -18,12 +18,10 @@ public class Main {
         
         Jeu jeu = new Jeu();
         
-        VueControleurPacMan vc = new VueControleurPacMan(Jeu.SIZE_X, Jeu.SIZE_Y);
         
-        jeu.addObserver(vc);
-        vc.setJeu(jeu);
+        Controleur c = new Controleur(jeu);
         
-        vc.setVisible(true);
+        jeu.addObserver(c);
         
         jeu.start();
     }

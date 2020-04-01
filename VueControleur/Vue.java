@@ -18,7 +18,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+
 import modele.Direction;
+import modele.Entite;
 import modele.Fantome;
 import modele.Jeu;
 import modele.Pacman;
@@ -30,10 +32,10 @@ import modele.Pacman;
  *
  * @author freder
  */
-public class VueControleurPacMan extends JFrame implements Observer {
+public class Vue extends JFrame{
 
-    private Jeu jeu; // référence sur une classe de modèle : permet d'accéder aux données du modèle pour le rafraichissement, permet de communiquer les actions clavier (ou souris)
-
+    private Controleur controleur;
+	
     private int sizeX; // taille de la grille affichée
     private int sizeY;
 
@@ -44,10 +46,11 @@ public class VueControleurPacMan extends JFrame implements Observer {
     private JLabel[][] tabJLabel; // cases graphique (au moment du rafraichissement, chaque case va être associé à une icône, suivant ce qui est présent dans la partie modèle)
 
 
-    public VueControleurPacMan(int _sizeX, int _sizeY) {
-
-        sizeX = _sizeX;
-        sizeY = _sizeY;
+    public Vue(int sizeX, int sizeY,Controleur controleur) {
+    	
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
+        this.controleur = controleur;
 
         chargerLesIcones();
         placerLesComposantsGraphiques();
@@ -58,25 +61,21 @@ public class VueControleurPacMan extends JFrame implements Observer {
 
     private void ajouterEcouteurClavier() {
 
-        addKeyListener(new KeyAdapter() { // new KeyAdapter() { ... } est une instance de classe anonyme, il s'agit d'un objet qui correspond au controleur dans MVC
+        this.addKeyListener(new KeyAdapter() { // new KeyAdapter() { ... } est une instance de classe anonyme, il s'agit d'un objet qui correspond au controleur dans MVC
             @Override
             public void keyPressed(KeyEvent e) {
                 
                 switch(e.getKeyCode()) {  // on écoute les flèches de direction du clavier
-                    case KeyEvent.VK_LEFT : jeu.getPacman().setDirection(Direction.gauche); break;
-                    case KeyEvent.VK_RIGHT : jeu.getPacman().setDirection(Direction.droite); break;
-                    case KeyEvent.VK_DOWN : jeu.getPacman().setDirection(Direction.bas); break;
-                    case KeyEvent.VK_UP : jeu.getPacman().setDirection(Direction.haut); break;
+                    case KeyEvent.VK_LEFT : controleur.setPacManDirection(Direction.gauche); break;
+                    case KeyEvent.VK_RIGHT : controleur.setPacManDirection(Direction.droite); break;
+                    case KeyEvent.VK_DOWN : controleur.setPacManDirection(Direction.bas); break;
+                    case KeyEvent.VK_UP : controleur.setPacManDirection(Direction.haut); break;
                 }
                 
             }
 
         });
 
-    }
-
-    public void setJeu(Jeu _jeu) {
-        jeu = _jeu;
     }
 
     private void chargerLesIcones() {
@@ -91,7 +90,7 @@ public class VueControleurPacMan extends JFrame implements Observer {
         try {
             image = ImageIO.read(new File(urlIcone));
         } catch (IOException ex) {
-            Logger.getLogger(VueControleurPacMan.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Vue.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
         return new ImageIcon(image);
@@ -103,16 +102,16 @@ public class VueControleurPacMan extends JFrame implements Observer {
         setSize(200, 250);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // permet de terminer l'application à la fermeture de la fenêtre
 
-        JComponent grilleJLabels = new JPanel(new GridLayout(10, 10)); // grilleJLabels va contenir les cases graphiques et les positionner sous la forme d'une grille
+        JComponent grilleJLabels = new JPanel(new GridLayout(this.sizeX, this.sizeY)); // grilleJLabels va contenir les cases graphiques et les positionner sous la forme d'une grille
 
-        tabJLabel = new JLabel[sizeX][sizeY];
+        this.tabJLabel = new JLabel[this.sizeX][this.sizeY];
         
 
-        for (int x = 0; x < sizeX; x++) {
-            for (int y = 0; y < sizeY; y++) {
+        for (int x = 0; x < this.sizeX; x++) {
+            for (int y = 0; y < this.sizeY; y++) {
 
                 JLabel jlab = new JLabel();
-                tabJLabel[y][x] = jlab; // on conserve les cases graphiques dans tabJLabel pour avoir un accès pratique à celles-ci (voir mettreAJourAffichage() )
+                this.tabJLabel[y][x] = jlab; // on conserve les cases graphiques dans tabJLabel pour avoir un accès pratique à celles-ci (voir mettreAJourAffichage() )
                 grilleJLabels.add(jlab);
                 
             }
@@ -127,50 +126,16 @@ public class VueControleurPacMan extends JFrame implements Observer {
     /**
      * Il y a une grille du côté du modèle ( jeu.getGrille() ) et une grille du côté de la vue (tabJLabel)
      */
-    private void mettreAJourAffichage() {
+    public void mettreAJourAffichage() {
 
-        for (int x = 0; x < sizeX; x++) {
-            for (int y = 0; y < sizeY; y++) {
-                if (jeu.getGrille()[x][y] instanceof Pacman) { // si la grille du modèle contient un Pacman, on associe l'icône Pacman du côté de la vue
-                    
-                    tabJLabel[x][y].setIcon(icoPacMan);
-                    
-                    
-                    
-                } else if (jeu.getGrille()[x][y] instanceof Fantome) {
-                    
-                    tabJLabel[x][y].setIcon(icoFantome);
-                } else {
-                    
-                        tabJLabel[x][y].setIcon(icoCouloir);
-                        
-                        
-                    
-                }
-                
-                
-
+        for (int x = 0; x < this.sizeX; x++) {
+            for (int y = 0; y < this.sizeY; y++) {
+            	Entite e = (this.controleur.getEntite(x, y));
+            	if(e instanceof Pacman)  this.tabJLabel[x][y].setIcon(icoPacMan);
+            	else if(e instanceof Fantome) this.tabJLabel[x][y].setIcon(icoFantome);
+            	else this.tabJLabel[x][y].setIcon(icoCouloir);
             }
         }
 
     }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        
-        
-        mettreAJourAffichage();
-        
-        
-        /*
-        SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        mettreAJourAffichage();
-                    }
-                }); 
-       */
-        
-    }
-
 }

@@ -45,15 +45,14 @@ public class Jeu extends Observable implements Runnable {
     }
     
     private void initialisationDesEntites() {
-        
+    	
         pm = new Pacman(this);
-        grilleEntites[2][0] = pm;
+        this.grilleEntites[2][0] = pm;
         map.put(pm, new Point(2, 0));
         
         Fantome f = new Fantome(this);
         grilleEntites[0][0] = f;
         map.put(f, new Point(0, 0));
-        
         
     }
     

@@ -15,9 +15,6 @@ import java.util.Random;
  */
 public class Pacman extends Entite {
 
-    
-    
-
     public Pacman(Jeu _jeu) {
         super(_jeu);
         d = Direction.droite;

@@ -8,7 +8,7 @@ import modele.Entite;
 import modele.Jeu;
 
 
-public class Controleur implements Observer { // controleur un singleton
+public class Controleur implements Observer {
 	
 	  private Vue vue;
 	  

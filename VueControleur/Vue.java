@@ -19,11 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import modele.Direction;
-import modele.Entite;
-import modele.Fantome;
-import modele.Jeu;
-import modele.Pacman;
+import modele.*;
 
 
 /** Cette classe a deux fonctions :
@@ -42,6 +38,7 @@ public class Vue extends JFrame{
     private ImageIcon icoPacMan; // icones affichées dans la grille
     private ImageIcon icoFantome;
     private ImageIcon icoCouloir;
+    private ImageIcon icoPacgum;
 
     private JLabel[][] tabJLabel; // cases graphique (au moment du rafraichissement, chaque case va être associé à une icône, suivant ce qui est présent dans la partie modèle)
 
@@ -82,6 +79,7 @@ public class Vue extends JFrame{
         icoPacMan = chargerIcone("Images/Pacman.png");
         icoCouloir = chargerIcone("Images/Couloir.png");
         icoFantome = chargerIcone("Images/Fantome.png");
+        icoPacgum = chargerIcone("Images/Pacgum.png");
     }
 
     private ImageIcon chargerIcone(String urlIcone) {
@@ -132,7 +130,8 @@ public class Vue extends JFrame{
             for (int y = 0; y < this.sizeY; y++) {
             	Entite e = (this.controleur.getEntite(x, y));
             	if(e instanceof Pacman)  this.tabJLabel[x][y].setIcon(icoPacMan);
-            	else if(e instanceof Fantome) this.tabJLabel[x][y].setIcon(icoFantome);
+                else if(e instanceof Fantome) this.tabJLabel[x][y].setIcon(icoFantome);
+                else if(e instanceof Pacgum) this.tabJLabel[x][y].setIcon(icoPacgum);
             	else this.tabJLabel[x][y].setIcon(icoCouloir);
             }
         }

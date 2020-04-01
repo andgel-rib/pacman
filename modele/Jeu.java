@@ -45,6 +45,14 @@ public class Jeu extends Observable implements Runnable {
     }
     
     private void initialisationDesEntites() {
+
+        Pacgum pg = new Pacgum(this);
+        for (int i = 0; i<SIZE_X;i++){
+            for (int y = 0; y<SIZE_Y;y++){
+                grilleEntites[i][y] = pg;
+                map.put(pg, new Point(i, y));
+            }
+        }
     	
         pm = new Pacman(this);
         this.grilleEntites[2][0] = pm;
@@ -75,7 +83,7 @@ public class Jeu extends Observable implements Runnable {
         
         Point pCible = calculerPointCible(pCourant, d);
         
-        if (contenuDansGrille(pCible) && objetALaPosition(pCible) == null) { // a adapter (collisions murs, etc.)
+        if (contenuDansGrille(pCible) && (objetALaPosition(pCible) == null || objetALaPosition(pCible) instanceof Pacgum)) { // a adapter (collisions murs, etc.)
             deplacerEntite(pCourant, pCible, e);
             retour = true;
         } else {
@@ -92,8 +100,9 @@ public class Jeu extends Observable implements Runnable {
             case haut: pCible = new Point(pCourant.x, pCourant.y - 1); break;
             case bas : pCible = new Point(pCourant.x, pCourant.y + 1); break;
             case gauche : pCible = new Point(pCourant.x - 1, pCourant.y); break;
-            case droite : pCible = new Point(pCourant.x + 1, pCourant.y); break;     
-            
+            case droite : pCible = new Point(pCourant.x + 1, pCourant.y); break;
+            case none : pCible = new Point(pCourant.x, pCourant.y); break;
+
         }
         
         return pCible;

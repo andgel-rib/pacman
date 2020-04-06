@@ -22,17 +22,16 @@ public class Controleur implements Observer {
 	      this.vue.setVisible(true);
 	  }
 	  
-	  public void setPacManDirection(Direction d) {
-		  this.jeu.getPacman().setDirection(d);
+	  public void deplacerPacMan(Direction d) {
+		  this.jeu.getPacman().changerDirection(d);
 	  }
 	  
 	  public Entite getEntite(int x,int y) {
-		  return this.jeu.getGrille()[x][y];
+		  return this.jeu.getEntiteAvecPosition(x, y);
 	  }
 
 	@Override
 	public void update(Observable o, Object arg) {
 		this.vue.mettreAJourAffichage();	
-	}
-		
+	}		
 }

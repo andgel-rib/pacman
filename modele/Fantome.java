@@ -5,6 +5,7 @@
  */
 package modele;
 
+import java.awt.Point;
 import java.util.Random;
 
 /**
@@ -12,25 +13,25 @@ import java.util.Random;
  * @author freder
  */
 public class Fantome extends Entite {
-
+	private Direction direction;
+	
     private Random r = new Random();
 
-    public Fantome(Jeu _jeu) {
-        super(_jeu);
-
+    public Fantome(Jeu jeu, Point p) {
+        super(jeu,true,p);
     }
 
-    @Override
-    public void choixDirection() {
-        
-        // développer une stratégie plus détaillée (utiliser regarderDansLaDirection(Entité, Direction) , ajouter murs, etc.)
-        switch (r.nextInt(2)) {
-            case 0:
-                d = Direction.droite;
-                break;
-            case 1:
-                d = Direction.bas;
-                break;
-        }
-    }
+	@Override
+	public void seDeplacer() {
+		switch (r.nextInt(2)) {
+			case 0:
+				this.direction = Direction.droite;
+				break;
+			case 1:
+				this.direction = Direction.bas;
+				break;
+		}
+		this.jeu.deplacerEntite(this, this.direction);
+	}
+
 }

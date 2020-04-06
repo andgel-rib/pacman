@@ -5,6 +5,8 @@
  */
 package modele;
 
+import java.awt.Point;
+
 /**
  *
  * @author freder
@@ -12,25 +14,41 @@ package modele;
 public abstract class Entite implements Runnable {
 
     protected Jeu jeu;
-    protected Direction d;
+    protected Point position;
+    protected final boolean mouvable;
     
-    public abstract void choixDirection(); // stratégie de déclassement définie dans les sous-classes, concernant Pacman, ce sont les évènements clavier qui définissent la direction
-    
-    public void avancerDirectionChoisie() {
-        jeu.deplacerEntite(this, d);
+    public Entite(Jeu jeu, boolean mouvable, Point position) {
+        this.jeu = jeu;
+        this.mouvable = mouvable;
+        this.position = position;
     }
     
-    
-    public Entite(Jeu _jeu) {
-        jeu = _jeu;
+    public Entite(Jeu jeu, Point position) {
+        this.jeu = jeu;
+        this.mouvable = false;
+        this.position = position;
     }
     
-    
-    
-    @Override
+    public Point getPosition() {
+		return this.position;
+	}
+
+	public void setPosition(Point position) {
+		this.position = position;
+	}
+	
+	public boolean getMouvable() {
+		return this.mouvable;
+	}
+	
+	protected void seDeplacer() {
+	}
+
+	@Override
     public void run() {
-        choixDirection();
-        avancerDirectionChoisie();
+		if(this.mouvable) {
+			this.seDeplacer();
+		}
     }
     
 }

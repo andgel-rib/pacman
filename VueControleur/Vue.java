@@ -63,10 +63,10 @@ public class Vue extends JFrame{
             public void keyPressed(KeyEvent e) {
                 
                 switch(e.getKeyCode()) {  // on écoute les flèches de direction du clavier
-                    case KeyEvent.VK_LEFT : controleur.setPacManDirection(Direction.gauche); break;
-                    case KeyEvent.VK_RIGHT : controleur.setPacManDirection(Direction.droite); break;
-                    case KeyEvent.VK_DOWN : controleur.setPacManDirection(Direction.bas); break;
-                    case KeyEvent.VK_UP : controleur.setPacManDirection(Direction.haut); break;
+                    case KeyEvent.VK_LEFT : controleur.deplacerPacMan(Direction.gauche); break;
+                    case KeyEvent.VK_RIGHT : controleur.deplacerPacMan(Direction.droite); break;
+                    case KeyEvent.VK_DOWN : controleur.deplacerPacMan(Direction.bas); break;
+                    case KeyEvent.VK_UP : controleur.deplacerPacMan(Direction.haut); break;
                 }
                 
             }
@@ -128,7 +128,7 @@ public class Vue extends JFrame{
 
         for (int x = 0; x < this.sizeX; x++) {
             for (int y = 0; y < this.sizeY; y++) {
-            	Entite e = (this.controleur.getEntite(x, y));
+            	Entite e = this.controleur.getEntite(x, y);
             	if(e instanceof Pacman)  this.tabJLabel[x][y].setIcon(icoPacMan);
                 else if(e instanceof Fantome) this.tabJLabel[x][y].setIcon(icoFantome);
                 else if(e instanceof Pacgum) this.tabJLabel[x][y].setIcon(icoPacgum);

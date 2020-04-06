@@ -5,6 +5,7 @@
  */
 package modele;
 
+import java.awt.Point;
 
 /**
  *
@@ -12,19 +13,8 @@ package modele;
  */
 public class Pacgum extends Entite {
 
-    public Pacgum(Jeu _jeu) {
-        super(_jeu);
-        d = Direction.none;
-
+    public Pacgum(Jeu jeu, Point p) {
+        super(jeu,p);
     }
-    
-    public void setDirection(Direction _d) {
-        d = _d;
-    }
-
-    @Override
-    public void choixDirection() {
-        
-    }
-
+  
 }

@@ -23,21 +23,21 @@ public class Jeu extends Observable implements Runnable {
     public static final int SIZE_Y = 10;
 
     private Pacman pm;
-
-    private HashMap<Entite, Point> map = new  HashMap<Entite, Point>(); // permet de récupérer la position d'une entité à partir de sa référence
+    
     private Entite[][] grilleEntites = new Entite[SIZE_X][SIZE_Y]; // permet de récupérer une entité à partir de ses coordonnées
     
     // TODO : ajouter les murs, couloir, PacGums, et adapter l'ensemble des fonctions (prévoir le raffraichissement également du côté de la vue)
     
     
-    public Jeu() {
-        
-        
+    public Jeu() { 
         initialisationDesEntites();
     }
     
-    public Entite[][] getGrille() {
-        return grilleEntites;
+    public Entite getEntiteAvecPosition(int x, int y) {
+    	if(this.contenuDansGrille(new Point(x,y)))
+    		return this.grilleEntites[x][y];
+    	else
+    		return null;
     }
     
     public Pacman getPacman() {
@@ -46,21 +46,18 @@ public class Jeu extends Observable implements Runnable {
     
     private void initialisationDesEntites() {
 
-        Pacgum pg = new Pacgum(this);
         for (int i = 0; i<SIZE_X;i++){
             for (int y = 0; y<SIZE_Y;y++){
-                grilleEntites[i][y] = pg;
-                map.put(pg, new Point(i, y));
+                Pacgum pg = new Pacgum(this,new Point(i, y));
+                this.grilleEntites[i][y] = pg;
             }
         }
     	
-        pm = new Pacman(this);
+        pm = new Pacman(this,new Point(2,0));
         this.grilleEntites[2][0] = pm;
-        map.put(pm, new Point(2, 0));
         
-        Fantome f = new Fantome(this);
-        grilleEntites[0][0] = f;
-        map.put(f, new Point(0, 0));
+        /*Fantome f = new Fantome(this,new Point(0,0));
+        this.grilleEntites[0][0] = f;*/
         
     }
     
@@ -69,18 +66,15 @@ public class Jeu extends Observable implements Runnable {
      * (fonctionalité utilisée dans choixDirection() de Fantôme)
      */
     public Object regarderDansLaDirection(Entite e, Direction d) {
-        Point positionEntite = map.get(e);
+        Point positionEntite = e.getPosition();
         return objetALaPosition(calculerPointCible(positionEntite, d));
     }
     
     /** Si le déclacement de l'entité est autorisé (pas de mur ou autre entité), il est réalisé
      */
     public boolean deplacerEntite(Entite e, Direction d) {
-        
         boolean retour;
-        
-        Point pCourant = map.get(e);
-        
+        Point pCourant = e.getPosition();
         Point pCible = calculerPointCible(pCourant, d);
         
         if (contenuDansGrille(pCible) && (objetALaPosition(pCible) == null || objetALaPosition(pCible) instanceof Pacgum)) { // a adapter (collisions murs, etc.)
@@ -104,14 +98,15 @@ public class Jeu extends Observable implements Runnable {
             case none : pCible = new Point(pCourant.x, pCourant.y); break;
 
         }
+        System.out.println(pCible);
         
         return pCible;
     }
     
     private void deplacerEntite(Point pCourant, Point pCible, Entite e) {
-        grilleEntites[pCourant.x][pCourant.y] = null;
-        grilleEntites[pCible.x][pCible.y] = e;
-        map.put(e, pCible);
+        this.grilleEntites[pCourant.x][pCourant.y] = null;
+        this.grilleEntites[pCible.x][pCible.y] = e;
+        e.setPosition(pCible);
     }
     
     /** Vérifie que p est contenu dans la grille
@@ -124,7 +119,7 @@ public class Jeu extends Observable implements Runnable {
         Object retour = null;
         
         if (contenuDansGrille(p)) {
-            retour = grilleEntites[p.x][p.y];
+            retour = this.grilleEntites[p.x][p.y];
         }
         
         return retour;
@@ -144,8 +139,11 @@ public class Jeu extends Observable implements Runnable {
 
         while (true) {
 
-            for (Entite e : map.keySet()) { // déclenchement de l'activité des entités, map.keySet() correspond à la liste des entités
-                e.run(); 
+            for(int x = 0; x < this.SIZE_X; x++) {
+            	for(int y = 0; y < this.SIZE_Y; y++) {
+            		if(this.grilleEntites[x][y] != null)
+            		this.grilleEntites[x][y].run();
+            	}
             }
 
             setChanged();

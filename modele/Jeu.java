@@ -91,15 +91,13 @@ public class Jeu extends Observable implements Runnable {
         Point pCible = null;
         
         switch(d) {
-            case haut: pCible = new Point(pCourant.x, pCourant.y - 1); break;
-            case bas : pCible = new Point(pCourant.x, pCourant.y + 1); break;
-            case gauche : pCible = new Point(pCourant.x - 1, pCourant.y); break;
-            case droite : pCible = new Point(pCourant.x + 1, pCourant.y); break;
-            case none : pCible = new Point(pCourant.x, pCourant.y); break;
+            case haut: pCible       = new Point(pCourant.x, pCourant.y - 1); break;
+            case bas : pCible       = new Point(pCourant.x, pCourant.y + 1); break;
+            case gauche : pCible    = new Point(pCourant.x - 1, pCourant.y); break;
+            case droite : pCible    = new Point(pCourant.x + 1, pCourant.y); break;
 
         }
-        System.out.println(pCible);
-        
+
         return pCible;
     }
     
@@ -141,8 +139,9 @@ public class Jeu extends Observable implements Runnable {
 
             for(int x = 0; x < this.SIZE_X; x++) {
             	for(int y = 0; y < this.SIZE_Y; y++) {
-            		if(this.grilleEntites[x][y] != null)
-            		this.grilleEntites[x][y].run();
+            		if(this.grilleEntites[x][y] != null){
+            		    this.grilleEntites[x][y].run(); // BUG : est lancé plusieurs fois si bas / droite
+                    }
             	}
             }
 

@@ -13,8 +13,9 @@ import java.awt.Point;
  */
 public class Pacgum extends Entite {
 
-    public Pacgum(Jeu jeu, Point p) {
-        super(jeu,p);
+    public Pacgum(Jeu jeu, Point p)
+    {
+        super(jeu, false, p);
     }
   
 }

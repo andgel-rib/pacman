@@ -23,7 +23,7 @@ public class Pacman extends Entite {
     
     public void seDeplacer() {
     	if(this.direction != null);
-    	this.jeu.deplacerEntite(this, this.direction);
+    		this.jeu.deplacerEntite(this, this.direction);
     }
 
 	public void changerDirection(Direction d) {

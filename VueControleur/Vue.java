@@ -98,7 +98,7 @@ public class Vue extends JFrame{
     private void placerLesComposantsGraphiques() {
 
         setTitle("PacMan");
-        setSize(200, 250);
+        setSize(18*this.sizeX, 19*this.sizeY);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // permet de terminer l'application à la fermeture de la fenêtre
 
         JComponent grilleJLabels = new JPanel(new GridLayout(this.sizeX, this.sizeY)); // grilleJLabels va contenir les cases graphiques et les positionner sous la forme d'une grille

@@ -20,17 +20,23 @@ import java.util.HashSet;
  */
 public class Jeu extends Observable implements Runnable {
 	private int ticks = 0; // le temps qui passe
-    public static final int SIZE_X = 10;
-    public static final int SIZE_Y = 10;
+	
+	private Map map;
+    private int SIZE_X;
+    private int SIZE_Y;
 
     private Pacman pm;
     
-    private Entite[][] grilleEntites  = new Entite[SIZE_X][SIZE_Y]; // permet de récupérer une entité à partir de ses coordonnées
+    private Entite[][] grilleEntites; // permet de récupérer une entité à partir de ses coordonnées
     
     // TODO : ajouter les murs, couloir, PacGums, et adapter l'ensemble des fonctions (prévoir le raffraichissement également du côté de la vue)
     
     
-    public Jeu() { 
+    public Jeu(Map map) {
+    	this.map = map;
+    	this.SIZE_X = this.map.getSIZE_X();
+    	this.SIZE_Y = this.map.getSIZE_Y();
+    	this.grilleEntites = new Entite[this.SIZE_X][this.SIZE_Y];
         initialisationDesEntites();
     }
     
@@ -46,20 +52,17 @@ public class Jeu extends Observable implements Runnable {
     }
     
     private void initialisationDesEntites() {
-
-        for (int i = 0; i<SIZE_X;i++){
-            for (int y = 0; y<SIZE_Y;y++){
-                Pacgum pg = new Pacgum(this,new Point(i, y));
-                this.grilleEntites[i][y] = pg;
-            }
-        }
     	
-        pm = new Pacman(this,new Point(2,0));
-        this.grilleEntites[2][0] = pm;
+    	for(Point p : this.map.getWalls()) {
+    		this.grilleEntites[p.x][p.y] = new Wall(this,p);
+    	}
+    	
+        pm = new Pacman(this,new Point(12,16));
+        this.grilleEntites[12][16] = pm;
         
-        Fantome f = new Fantome(this,new Point(0,0));
+        /*Fantome f = new Fantome(this,new Point(0,0));
         this.grilleEntites[0][0] = f;
-        
+        */
     }
     
     
@@ -182,7 +185,7 @@ public class Jeu extends Observable implements Runnable {
 
     private boolean gameFinished() {
         if (gameLost() || gameWin())
-            return true;
+            return false;
         else
             return false;
     }
@@ -197,7 +200,7 @@ public class Jeu extends Observable implements Runnable {
             }
         }
         System.out.println("***Gagne***");
-        return true;
+        return false;
     }
 
     private boolean gameLost()
@@ -217,5 +220,14 @@ public class Jeu extends Observable implements Runnable {
         }
         return false;
     }
+    
+
+	public int getSIZE_X() {
+		return SIZE_X;
+	}
+
+	public int getSIZE_Y() {
+		return SIZE_Y;
+	}
 
 }

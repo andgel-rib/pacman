@@ -17,7 +17,7 @@ public class Controleur implements Observer {
 	  public Controleur(Jeu jeu) {
 		  this.jeu = jeu;
 		  
-		  this.vue = new Vue(this.jeu.SIZE_X,this.jeu.SIZE_Y,this);
+		  this.vue = new Vue(this.jeu.getSIZE_X(),this.jeu.getSIZE_Y(),this);
 		  
 	      this.vue.setVisible(true);
 	  }

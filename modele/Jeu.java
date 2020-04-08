@@ -152,7 +152,7 @@ public class Jeu extends Observable implements Runnable {
     @Override
     public void run() {
 
-        while (true) {
+        while (!gameFinished()) {
 
             for (Entite entite: this.getAllEntitiesPosition())
             {
@@ -171,6 +171,31 @@ public class Jeu extends Observable implements Runnable {
 
         }
 
+    }
+
+    private boolean gameFinished() {
+        if (gameLost() || gameWin())
+            return true;
+        else
+            return false;
+    }
+
+    private boolean gameWin()
+    {
+        for(int x = 0; x < this.SIZE_X; x++) {
+            for(int y = 0; y < this.SIZE_Y; y++) {
+                if(this.grilleEntites[x][y] instanceof Pacgum){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean gameLost()
+    {
+
+        return false;
     }
 
 }

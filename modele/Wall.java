@@ -5,15 +5,14 @@
  */
 package modele;
 
-import java.awt.Point;
+import java.awt.*;
 
 /**
  *
- * 
  */
-public class Pacgum extends Entite {
+public class Wall extends Entite {
 
-    public Pacgum(Jeu jeu, Point p)
+    public Wall(Jeu jeu, Point p)
     {
         super(jeu, false, p);
     }

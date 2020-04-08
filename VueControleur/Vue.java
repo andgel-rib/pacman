@@ -1,7 +1,6 @@
 package VueControleur;
 
-import java.awt.GridLayout;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -39,6 +38,7 @@ public class Vue extends JFrame{
     private ImageIcon icoFantome;
     private ImageIcon icoCouloir;
     private ImageIcon icoPacgum;
+    private ImageIcon icoWall;
 
     private JLabel[][] tabJLabel; // cases graphique (au moment du rafraichissement, chaque case va être associé à une icône, suivant ce qui est présent dans la partie modèle)
 
@@ -80,6 +80,7 @@ public class Vue extends JFrame{
         icoCouloir = chargerIcone("Images/Couloir.png");
         icoFantome = chargerIcone("Images/Fantome.png");
         icoPacgum = chargerIcone("Images/Pacgum.png");
+        icoWall = chargerIcone("Images/Wall.png");
     }
 
     private ImageIcon chargerIcone(String urlIcone) {
@@ -102,6 +103,7 @@ public class Vue extends JFrame{
 
         JComponent grilleJLabels = new JPanel(new GridLayout(this.sizeX, this.sizeY)); // grilleJLabels va contenir les cases graphiques et les positionner sous la forme d'une grille
 
+        grilleJLabels.setBackground(Color.BLACK);
         this.tabJLabel = new JLabel[this.sizeX][this.sizeY];
         
 
@@ -132,6 +134,7 @@ public class Vue extends JFrame{
             	if(e instanceof Pacman)  this.tabJLabel[x][y].setIcon(icoPacMan);
                 else if(e instanceof Fantome) this.tabJLabel[x][y].setIcon(icoFantome);
                 else if(e instanceof Pacgum) this.tabJLabel[x][y].setIcon(icoPacgum);
+                else if(e instanceof Wall) this.tabJLabel[x][y].setIcon(icoWall);
             	else this.tabJLabel[x][y].setIcon(icoCouloir);
             }
         }

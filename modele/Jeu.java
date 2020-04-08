@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.HashSet;
 
 /** La classe Jeu a deux fonctions 
  *  (1) Gérer les aspects du jeu : condition de défaite, victoire, nombre de vies
@@ -126,13 +127,12 @@ public class Jeu extends Observable implements Runnable {
     /*
      * Obtenir un array de positions de toutes les entitées
      */
-    private Entite[] getAllEntitiesPosition(){
-        Entite[] listeEntites = new Entite[SIZE_X * SIZE_Y];
-        int i = 0;
+    private HashSet<Entite> getMovableEntities(){
+    	HashSet<Entite> listeEntites = new HashSet<Entite>();
         for(int x = 0; x < this.SIZE_X; x++) {
             for(int y = 0; y < this.SIZE_Y; y++) {
-                if(this.grilleEntites[x][y] != null){
-                    listeEntites[i] = this.grilleEntites[x][y];
+                if(this.grilleEntites[x][y] != null && this.grilleEntites[x][y].getMouvable()){
+                    listeEntites.add(this.grilleEntites[x][y]);
                 }
             }
         }
@@ -154,10 +154,9 @@ public class Jeu extends Observable implements Runnable {
 
         while (true) {
 
-            for (Entite entite: this.getAllEntitiesPosition())
+            for (Entite entite: this.getMovableEntities())
             {
-                if (entite != null)
-                    entite.run();
+            	entite.run();
             }
 
             setChanged();

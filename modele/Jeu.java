@@ -56,8 +56,8 @@ public class Jeu extends Observable implements Runnable {
         pm = new Pacman(this,new Point(2,0));
         this.grilleEntites[2][0] = pm;
         
-        /*Fantome f = new Fantome(this,new Point(0,0));
-        this.grilleEntites[0][0] = f;*/
+        Fantome f = new Fantome(this,new Point(0,0));
+        this.grilleEntites[0][0] = f;
         
     }
     
@@ -122,6 +122,23 @@ public class Jeu extends Observable implements Runnable {
         
         return retour;
     }
+
+    /*
+     * Obtenir un array de positions de toutes les entitées
+     */
+    private Entite[] getAllEntitiesPosition(){
+        Entite[] listeEntites = new Entite[SIZE_X * SIZE_Y];
+        int i = 0;
+        for(int x = 0; x < this.SIZE_X; x++) {
+            for(int y = 0; y < this.SIZE_Y; y++) {
+                if(this.grilleEntites[x][y] != null){
+                    listeEntites[i] = this.grilleEntites[x][y];
+                }
+            }
+        }
+
+        return listeEntites;
+    }
     
     /**
      * Un processus est créé et lancé, celui-ci execute la fonction run()
@@ -137,12 +154,10 @@ public class Jeu extends Observable implements Runnable {
 
         while (true) {
 
-            for(int x = 0; x < this.SIZE_X; x++) {
-            	for(int y = 0; y < this.SIZE_Y; y++) {
-            		if(this.grilleEntites[x][y] != null){
-            		    this.grilleEntites[x][y].run(); // BUG : est lancé plusieurs fois si bas / droite
-                    }
-            	}
+            for (Entite entite: this.getAllEntitiesPosition())
+            {
+                if (entite != null)
+                    entite.run();
             }
 
             setChanged();

@@ -81,8 +81,13 @@ public class Jeu extends Observable implements Runnable {
         Point pCourant = e.getPosition();
         Point pCible = calculerPointCible(pCourant, d);
         
-        if (contenuDansGrille(pCible) && (objetALaPosition(pCible) == null || objetALaPosition(pCible) instanceof Pacgum)) { // a adapter (collisions murs, etc.)
+        if (contenuDansGrille(pCible) && (objetALaPosition(pCible) == null ||
+                objetALaPosition(pCible) instanceof Pacgum ||
+                objetALaPosition(pCible) instanceof Pacman)) { // Pour montrer perdu
             deplacerEntite(pCourant, pCible, e);
+            retour = true;
+        } else if (objetALaPosition(pCible) instanceof Fantome && e instanceof Pacman) {
+            this.grilleEntites[e.position.x][e.position.y] = null;
             retour = true;
         } else {
             retour = false;
@@ -207,18 +212,12 @@ public class Jeu extends Observable implements Runnable {
     {
         for (Entite entite: getMovableEntities())
         {
-            if (entite instanceof Fantome){
-                if ( (this.calculerPointCible(entite.getPosition(), ((Fantome) entite).getDirection()) == this.calculerPointCible(pm.getPosition(), pm.getDirection())) || //pm et fant vont dans la même direction
-                    (entite.getPosition() == this.calculerPointCible(pm.getPosition(), pm.getDirection())) || //pm va pos fant
-                    (this.calculerPointCible(entite.getPosition(), ((Fantome) entite).getDirection()) == pm.getPosition()) //fant va pos pm
-                )
-                {
-                    System.out.println("***Perdu***");
-                    return true;
-                }
+            if (entite instanceof Pacman){
+                return false;
             }
         }
-        return false;
+        System.out.println("***Perdu***");
+        return true;
     }
     
 

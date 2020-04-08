@@ -78,7 +78,9 @@ public class Jeu extends Observable implements Runnable {
         Point pCourant = e.getPosition();
         Point pCible = calculerPointCible(pCourant, d);
         
-        if (contenuDansGrille(pCible) && (objetALaPosition(pCible) == null || objetALaPosition(pCible) instanceof Pacgum)) { // a adapter (collisions murs, etc.)
+        if (contenuDansGrille(pCible) && (objetALaPosition(pCible) == null ||
+                objetALaPosition(pCible) instanceof Pacgum ||
+                objetALaPosition(pCible) instanceof Pacman)) { // Pour montrer perdu
             deplacerEntite(pCourant, pCible, e);
             retour = true;
         } else {

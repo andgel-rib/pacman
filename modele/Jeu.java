@@ -205,9 +205,9 @@ public class Jeu extends Observable implements Runnable {
         for (Entite entite: getMovableEntities())
         {
             if (entite instanceof Fantome){
-                if ( (this.calculerPointCible(entite.getPosition(), ((Fantome) entite).getDirection()) == this.calculerPointCible(pm.getPosition(), pm.getDirection())) || //pm et fant vont dans la même direction
-                    (entite.getPosition() == this.calculerPointCible(pm.getPosition(), pm.getDirection())) || //pm va pos fant
-                    (this.calculerPointCible(entite.getPosition(), ((Fantome) entite).getDirection()) == pm.getPosition()) //fant va pos pm
+                if ( (this.calculerPointCible(entite.getPosition(), ((Fantome) entite).getDirection()).equals(this.calculerPointCible(pm.getPosition(), pm.getDirection()))) || //pm et fant vont dans la même direction
+                    (entite.getPosition().equals(this.calculerPointCible(pm.getPosition(), pm.getDirection()))) || //pm va pos fant
+                    (this.calculerPointCible(entite.getPosition(), ((Fantome) entite).getDirection()).equals(pm.getPosition())) //fant va pos pm
                 )
                 {
                     System.out.println("***Perdu***");

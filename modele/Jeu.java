@@ -19,13 +19,13 @@ import java.util.HashSet;
  * @author freder
  */
 public class Jeu extends Observable implements Runnable {
-
+	private int ticks = 0; // le temps qui passe
     public static final int SIZE_X = 10;
     public static final int SIZE_Y = 10;
 
     private Pacman pm;
     
-    private Entite[][] grilleEntites = new Entite[SIZE_X][SIZE_Y]; // permet de récupérer une entité à partir de ses coordonnées
+    private Entite[][] grilleEntites  = new Entite[SIZE_X][SIZE_Y]; // permet de récupérer une entité à partir de ses coordonnées
     
     // TODO : ajouter les murs, couloir, PacGums, et adapter l'ensemble des fonctions (prévoir le raffraichissement également du côté de la vue)
     
@@ -147,12 +147,21 @@ public class Jeu extends Observable implements Runnable {
         new Thread(this).start();
 
     }
+    
+	public int getTicks() {
+		return this.ticks;
+	}
+	
+	public boolean checkDirectionWithPosition(Point position,Direction direction) {
+		Point target = this.calculerPointCible(position, direction);
+		if(!this.contenuDansGrille(target)) return false;
+		return !(this.grilleEntites[target.x][target.y] instanceof Wall);
+	}
 
     @Override
     public void run() {
-
         while (!gameFinished()) {
-
+        	this.ticks+=1;
             for (Entite entite: this.getMovableEntities())
             {
             	entite.run();

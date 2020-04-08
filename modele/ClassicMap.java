@@ -176,9 +176,9 @@ public class ClassicMap extends Map {
 			new Point(13,15),new Point(14,15),
 			new Point(15,15),new Point(16,15),	
 			new Point(9,12),new Point(9,13),
-			new Point(9,15),new Point(9,15),
+			new Point(9,14),new Point(9,15),
 			new Point(16,12),new Point(16,13),
-			new Point(16,15),new Point(16,15),
+			new Point(16,14),new Point(16,15),
 			new Point(0,8),new Point(1,8), // mur ext
 			new Point(2,8),new Point(3,8),
 			new Point(4,8),

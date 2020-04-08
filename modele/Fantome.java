@@ -19,6 +19,7 @@ public class Fantome extends Entite {
 
     public Fantome(Jeu jeu, Point p) {
         super(jeu,true,p);
+        this.direction = Direction.droite;
     }
 
 	@Override
@@ -34,4 +35,7 @@ public class Fantome extends Entite {
 		this.jeu.deplacerEntite(this, this.direction);
 	}
 
+	public Direction getDirection() {
+		return direction;
+	}
 }

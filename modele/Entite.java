@@ -50,5 +50,5 @@ public abstract class Entite implements Runnable {
 			this.seDeplacer();
 		}
     }
-    
+
 }

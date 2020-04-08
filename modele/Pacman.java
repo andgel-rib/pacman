@@ -31,4 +31,7 @@ public class Pacman extends Entite {
 		this.direction = d;
 	}
 
+	public Direction getDirection() {
+		return direction;
+	}
 }

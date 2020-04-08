@@ -96,7 +96,6 @@ public class Jeu extends Observable implements Runnable {
             case bas : pCible       = new Point(pCourant.x, pCourant.y + 1); break;
             case gauche : pCible    = new Point(pCourant.x - 1, pCourant.y); break;
             case droite : pCible    = new Point(pCourant.x + 1, pCourant.y); break;
-
         }
 
         return pCible;
@@ -188,12 +187,25 @@ public class Jeu extends Observable implements Runnable {
                 }
             }
         }
+        System.out.println("***Gagne***");
         return true;
     }
 
     private boolean gameLost()
     {
-
+        for (Entite entite: getMovableEntities())
+        {
+            if (entite instanceof Fantome){
+                if ( (this.calculerPointCible(entite.getPosition(), ((Fantome) entite).getDirection()) == this.calculerPointCible(pm.getPosition(), pm.getDirection())) || //pm et fant vont dans la même direction
+                    (entite.getPosition() == this.calculerPointCible(pm.getPosition(), pm.getDirection())) || //pm va pos fant
+                    (this.calculerPointCible(entite.getPosition(), ((Fantome) entite).getDirection()) == pm.getPosition()) //fant va pos pm
+                )
+                {
+                    System.out.println("***Perdu***");
+                    return true;
+                }
+            }
+        }
         return false;
     }
 

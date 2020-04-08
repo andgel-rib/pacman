@@ -5,7 +5,7 @@ import java.awt.Point;
 public class ClassicMap extends Map {
 	
 	public ClassicMap() {
-		super(28,28);
+		super(29,29);
 		this.walls = new Point[]{
 			new Point(1,1),new Point(2,1), //haut gauche zone A
 			new Point(3,1),new Point(4,1),
@@ -102,8 +102,8 @@ public class ClassicMap extends Map {
 			new Point(6,16),new Point(7,16),
 			new Point(6,17),new Point(7,17),
 			new Point(6,18),new Point(7,18),
-			new Point(24,23),new Point(24,23), // bas droit mur ext
-			new Point(24,24),new Point(24,24),
+			new Point(24,23),new Point(25,23), // bas droit mur ext
+			new Point(24,24),new Point(25,24),
 			new Point(21,20),new Point(22,20), // zone Q
 			new Point(23,20),new Point(24,20),
 			new Point(21,21),new Point(22,21),
@@ -239,6 +239,10 @@ public class ClassicMap extends Map {
 			new Point(21,18),new Point(22,18), 
 			new Point(23,18),new Point(24,18),
 			new Point(25,18),
+			new Point(12,0),new Point(13,0), // mur ext
+			new Point(12,1),new Point(13,1),
+			new Point(12,2),new Point(13,2),
+			new Point(12,3),new Point(13,3),
 		};
 		}
 }

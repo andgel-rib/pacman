@@ -24,6 +24,7 @@ public class Controleur implements Observer {
 	  
 	  public void deplacerPacMan(Direction d) {
 		  this.jeu.getPacman().changerDirection(d);
+		  this.vue.turnPacmanView(d);
 	  }
 	  
 	  public Entite getEntite(int x,int y) {
@@ -32,6 +33,9 @@ public class Controleur implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		this.vue.mettreAJourAffichage();	
+		this.vue.mettreAJourAffichage();
+		if (this.jeu.gameFinished()){
+			this.vue.gameFinishedAlert(this.jeu.gameWin(),this.jeu.getScore());
+		}
 	}		
 }

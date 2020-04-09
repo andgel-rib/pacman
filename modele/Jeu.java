@@ -52,17 +52,26 @@ public class Jeu extends Observable implements Runnable {
     }
     
     private void initialisationDesEntites() {
-    	
+
+
+        for(int x = 0; x < this.SIZE_X; x++) { // placer pacgum partout
+            for(int y = 0; y < this.SIZE_Y; y++) {
+                Pacgum pg = new Pacgum(this, new Point(x, y));
+                this.grilleEntites[x][y] = pg;
+            }
+        };
+
     	for(Point p : this.map.getWalls()) {
     		this.grilleEntites[p.x][p.y] = new Wall(this,p);
     	}
     	
         pm = new Pacman(this,new Point(12,16));
         this.grilleEntites[12][16] = pm;
-        
-        /*Fantome f = new Fantome(this,new Point(0,0));
-        this.grilleEntites[0][0] = f;
-        */
+
+        for (Point spawnFantome: this.map.getSpawnFantomes()){
+            Fantome f = new Fantome(this,spawnFantome);
+            this.grilleEntites[spawnFantome.x][spawnFantome.y] = f;
+        }
     }
     
     
@@ -190,7 +199,7 @@ public class Jeu extends Observable implements Runnable {
 
     private boolean gameFinished() {
         if (gameLost() || gameWin())
-            return false;
+            return true;
         else
             return false;
     }

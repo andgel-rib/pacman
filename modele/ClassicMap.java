@@ -244,5 +244,9 @@ public class ClassicMap extends Map {
 			new Point(12,2),new Point(13,2),
 			new Point(12,3),new Point(13,3),
 		};
-		}
+		this.spawnFantomes = new Point[]{
+			new Point(11, 13),
+			new Point(14, 13)
+		};
+	}
 }

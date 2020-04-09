@@ -3,6 +3,7 @@ package VueControleur;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -35,6 +36,7 @@ public class Vue extends JFrame{
     private int sizeY;
 
     private ImageIcon icoPacMan; // icones affichées dans la grille
+    private ImageIcon icoPacManAnime;
     private ImageIcon icoFantome;
     private ImageIcon icoCouloir;
     private ImageIcon icoPacgum;
@@ -77,6 +79,7 @@ public class Vue extends JFrame{
 
     private void chargerLesIcones() {
         icoPacMan = chargerIcone("Images/Pacman.png");
+        icoPacManAnime = icoPacMan;
         icoCouloir = chargerIcone("Images/Couloir.png");
         icoFantome = chargerIcone("Images/Fantome.png");
         icoPacgum = chargerIcone("Images/Pacgum.png");
@@ -131,7 +134,7 @@ public class Vue extends JFrame{
         for (int x = 0; x < this.sizeX; x++) {
             for (int y = 0; y < this.sizeY; y++) {
             	Entite e = this.controleur.getEntite(x, y);
-            	if(e instanceof Pacman)  this.tabJLabel[x][y].setIcon(icoPacMan);
+            	if(e instanceof Pacman)  this.tabJLabel[x][y].setIcon(icoPacManAnime);
                 else if(e instanceof Fantome) this.tabJLabel[x][y].setIcon(icoFantome);
                 else if(e instanceof Pacgum) this.tabJLabel[x][y].setIcon(icoPacgum);
                 else if(e instanceof Wall) this.tabJLabel[x][y].setIcon(icoWall);
@@ -139,5 +142,32 @@ public class Vue extends JFrame{
             }
         }
 
+    }
+
+    public void turnPacmanView(Direction d) {
+        int angle = 0;
+        switch (d){
+            case droite: angle = 0;break;
+            case bas: angle = 90;break;
+            case haut: angle = -90;break;
+            case gauche: angle = -180;break;
+        }
+
+        icoPacManAnime = this.rotateIcon(this.icoPacMan, angle);
+        this.mettreAJourAffichage();
+    }
+
+    private ImageIcon rotateIcon(ImageIcon ico, double angle) {
+        int w = ico.getIconWidth();
+        int h = ico.getIconHeight();
+        BufferedImage img = new BufferedImage(h, ico.getIconWidth(), BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2 = img.createGraphics();
+        double x = (h - w)/2.0;
+        double y = (w - h)/2.0;
+        AffineTransform at = AffineTransform.getTranslateInstance(x, y);
+        at.rotate(Math.toRadians(angle), w/2.0, h/2.0);
+        g2.drawImage(ico.getImage(), at, null);
+        g2.dispose();
+        return new ImageIcon(img);
     }
 }

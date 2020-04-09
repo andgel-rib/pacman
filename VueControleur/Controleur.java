@@ -24,6 +24,7 @@ public class Controleur implements Observer {
 	  
 	  public void deplacerPacMan(Direction d) {
 		  this.jeu.getPacman().changerDirection(d);
+		  this.vue.turnPacmanView(d);
 	  }
 	  
 	  public Entite getEntite(int x,int y) {

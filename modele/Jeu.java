@@ -92,7 +92,7 @@ public class Jeu extends Observable implements Runnable {
         
         if (contenuDansGrille(pCible) && (objetALaPosition(pCible) == null ||
                 objetALaPosition(pCible) instanceof Pacgum ||
-                objetALaPosition(pCible) instanceof Pacman)) { // Pour montrer perdu
+                objetALaPosition(pCible) instanceof Pacman)) { // Pour manger pacman / pour perdre
             deplacerEntite(pCourant, pCible, e);
             retour = true;
         } else if (objetALaPosition(pCible) instanceof Fantome && e instanceof Pacman) {

@@ -52,13 +52,15 @@ public class Jeu extends Observable implements Runnable {
     }
     
     private void initialisationDesEntites() {
-    	
+
     	for(Point p : this.map.getWalls()) {
-    		this.grilleEntites[p.x][p.y] = new Wall(this,p);
+    		if(this.contenuDansGrille(p)) {
+    			this.grilleEntites[p.x][p.y] = new Wall(this,p);
+    		}
     	}
     	
         pm = new Pacman(this,new Point(12,16));
-        this.grilleEntites[12][16] = pm;
+        this.grilleEntites[12][17] = pm;
         
         /*Fantome f = new Fantome(this,new Point(0,0));
         this.grilleEntites[0][0] = f;

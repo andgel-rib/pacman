@@ -34,8 +34,11 @@ public class Jeu extends Observable implements Runnable {
     
     public Jeu(Map map) {
     	this.map = map;
-    	this.SIZE_X = this.map.getSIZE_X();
-    	this.SIZE_Y = this.map.getSIZE_Y();
+    	int xMap = this.map.getSIZE_X();
+    	int yMap = this.map.getSIZE_Y();
+    	int max  = Math.max(xMap, yMap); // la map serra un carr�
+    	this.SIZE_X = max;
+    	this.SIZE_Y = max;
     	this.grilleEntites = new Entite[this.SIZE_X][this.SIZE_Y];
         initialisationDesEntites();
     }
@@ -52,6 +55,12 @@ public class Jeu extends Observable implements Runnable {
     }
     
     private void initialisationDesEntites() {
+        for(int x = 0; x < this.SIZE_X; x++) { // placer pacgum partout
+            for(int y = 0; y < this.SIZE_Y; y++) {
+                Pacgum pg = new Pacgum(this, new Point(x, y));
+                this.grilleEntites[x][y] = pg;
+            }
+        };
 
     	for(Point p : this.map.getWalls()) {
     		if(this.contenuDansGrille(p)) {
@@ -59,13 +68,35 @@ public class Jeu extends Observable implements Runnable {
     		}
     	}
     	
-        pm = new Pacman(this,new Point(12,16));
+        pm = new Pacman(this,new Point(12,17));
         this.grilleEntites[12][17] = pm;
-        
-        /*Fantome f = new Fantome(this,new Point(0,0));
-        this.grilleEntites[0][0] = f;
-        */
+
+        /*for (Point spawnFantome: this.map.getSpawnFantomes()){
+            Fantome f = new Fantome(this,spawnFantome);
+            this.grilleEntites[spawnFantome.x][spawnFantome.y] = f;
+        }*/
+        Fantome f = new Fantome(this,new Point(1,1));
+        this.grilleEntites[1][1] = f;
     }
+    
+    
+	public HashSet<Direction> getAvailableDirections(Point position){
+		HashSet<Direction> availableDirections = new HashSet<Direction>();
+		for(Direction d : Direction.values()) {
+			if(this.checkDirectionWithPosition(position, d))
+			availableDirections.add(d);
+		}
+		return availableDirections;
+	}
+	
+	public HashSet<Point> getAvailablePoints(Point position){
+		HashSet<Point> availablePoints = new HashSet<Point>();
+		for(Direction d : Direction.values()) {
+			if(this.checkDirectionWithPosition(position, d))
+			availablePoints.add(this.calculerPointCible(position, d));
+		}
+		return availablePoints;
+	}
     
     
     /** Permet a une entité  de percevoir sont environnement proche et de définir sa strétégie de déplacement 
@@ -98,7 +129,7 @@ public class Jeu extends Observable implements Runnable {
     }
     
     
-    private Point calculerPointCible(Point pCourant, Direction d) {
+    public Point calculerPointCible(Point pCourant, Direction d) {
         Point pCible = null;
         
         switch(d) {
@@ -192,7 +223,7 @@ public class Jeu extends Observable implements Runnable {
 
     private boolean gameFinished() {
         if (gameLost() || gameWin())
-            return false;
+            return true;
         else
             return false;
     }

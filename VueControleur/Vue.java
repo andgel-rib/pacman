@@ -76,11 +76,11 @@ public class Vue extends JFrame{
     }
 
     private void chargerLesIcones() {
-        icoPacMan = chargerIcone("Images/Pacman.png");
-        icoCouloir = chargerIcone("Images/Couloir.png");
-        icoFantome = chargerIcone("Images/Fantome.png");
-        icoPacgum = chargerIcone("Images/Pacgum.png");
-        icoWall = chargerIcone("Images/Wall.png");
+        icoPacMan = chargerIcone("src/Images/Pacman.png");
+        icoCouloir = chargerIcone("src/Images/Couloir.png");
+        icoFantome = chargerIcone("src/Images/Fantome.png");
+        icoPacgum = chargerIcone("src/Images/Pacgum.png");
+        icoWall = chargerIcone("src/Images/Wall.png");
     }
 
     private ImageIcon chargerIcone(String urlIcone) {

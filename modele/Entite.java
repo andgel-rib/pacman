@@ -12,8 +12,8 @@ import java.awt.Point;
  * @author freder
  */
 public abstract class Entite implements Runnable {
-
-    protected Jeu jeu;
+	
+	protected Jeu jeu;
     protected Point position;
     protected final boolean mouvable;
     
@@ -43,7 +43,7 @@ public abstract class Entite implements Runnable {
 	
 	protected void seDeplacer() {
 	}
-
+	
 	@Override
     public void run() {
 		if(this.mouvable) {

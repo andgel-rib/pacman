@@ -6,6 +6,7 @@ public class Map {
 	protected int SIZE_X;
 	protected int SIZE_Y;
 	protected Point[] walls = {};
+	protected Point[] spawnFantomes = {};
 	
 	public Map(int SIZE_X,int SIZE_Y) {
 		this.SIZE_X = SIZE_X;
@@ -22,5 +23,13 @@ public class Map {
 	
 	public Point[] getWalls() {
 		return this.walls;
+	}
+
+	public Point[] getSpawnFantomes() {
+		return spawnFantomes;
+	}
+
+	public Point[] pacgums() {
+		return spawnFantomes;
 	}
 }

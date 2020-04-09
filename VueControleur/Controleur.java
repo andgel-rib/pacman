@@ -33,6 +33,9 @@ public class Controleur implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		this.vue.mettreAJourAffichage();	
+		this.vue.mettreAJourAffichage();
+		if (this.jeu.gameFinished()){
+			this.vue.gameFinishedAlert(this.jeu.gameWin(),this.jeu.getScore());
+		}
 	}		
 }

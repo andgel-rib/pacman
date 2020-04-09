@@ -26,6 +26,7 @@ public class Jeu extends Observable implements Runnable {
     private int SIZE_Y;
 
     private Pacman pm;
+    private int score = 0;
     
     private Entite[][] grilleEntites; // permet de récupérer une entité à partir de ses coordonnées
     
@@ -46,7 +47,11 @@ public class Jeu extends Observable implements Runnable {
     	else
     		return null;
     }
-    
+
+    public int getScore() {
+        return score;
+    }
+
     public Pacman getPacman() {
         return pm;
     }
@@ -197,14 +202,14 @@ public class Jeu extends Observable implements Runnable {
 
     }
 
-    private boolean gameFinished() {
+    public boolean gameFinished() {
         if (gameLost() || gameWin())
             return true;
         else
             return false;
     }
 
-    private boolean gameWin()
+    public boolean gameWin()
     {
         for(int x = 0; x < this.SIZE_X; x++) {
             for(int y = 0; y < this.SIZE_Y; y++) {
@@ -213,8 +218,8 @@ public class Jeu extends Observable implements Runnable {
                 }
             }
         }
-        System.out.println("***Gagne***");
-        return false;
+        //gagné
+        return true;
     }
 
     private boolean gameLost()
@@ -225,7 +230,7 @@ public class Jeu extends Observable implements Runnable {
                 return false;
             }
         }
-        System.out.println("***Perdu***");
+        //perdu
         return true;
     }
     

@@ -21,6 +21,9 @@ import javax.swing.SwingUtilities;
 
 import modele.*;
 
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
+import static javax.swing.JOptionPane.showMessageDialog;
+
 
 /** Cette classe a deux fonctions :
  *  (1) Vue : proposer une représentation graphique de l'application (cases graphiques, etc.)
@@ -169,5 +172,16 @@ public class Vue extends JFrame{
         g2.drawImage(ico.getImage(), at, null);
         g2.dispose();
         return new ImageIcon(img);
+    }
+
+    public void gameFinishedAlert(boolean won, int score){
+        String message = "";
+        if (won){
+            message = "Vous avez gagné.";
+        } else {
+            message = "Vous avez perdu.";
+        }
+        message += " Score total : " + score;
+        showMessageDialog(null, message, "Fin du jeu", INFORMATION_MESSAGE, null);
     }
 }

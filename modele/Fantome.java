@@ -49,12 +49,12 @@ public class Fantome extends Entite {
 	}
 	
 	public void dijkstra() {
-		HashSet<Point> explored = new HashSet<Point>();
 		HashSet<Direction> availableDirections = this.jeu.getAvailableDirections(this.position);
-		explored.add(this.position);
 		int minDist = 0;
 		Direction direction = null;
 		for(Direction d : availableDirections) {
+			HashSet<Point> explored = new HashSet<Point>();
+			explored.add(this.position);
 			if(direction == null)
 				direction = d;
 			int dirDist = this.explore(explored,this.jeu.calculerPointCible(this.position, d),1);

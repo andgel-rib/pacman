@@ -64,7 +64,7 @@ public class Jeu extends Observable implements Runnable {
     }
     
     private void initialisationDesEntites() {
-        for(int x = 0; x < this.SIZE_X-3; x++) { // placer pacgum partout
+        for(int x = 0; x < this.SIZE_X; x++) { // placer pacgum partout
             for(int y = 0; y < this.SIZE_Y; y++) {
                 Pacgum pg = new Pacgum(this, new Point(x, y));
                 this.grilleEntites[x][y] = pg;
@@ -81,6 +81,17 @@ public class Jeu extends Observable implements Runnable {
             if(this.contenuDansGrille(p)) {
                 this.grilleEntites[p.x][p.y] = new Wall(this,p);
             }
+        }
+        
+        for(int x = this.map.SIZE_X; x < this.SIZE_X; x++) {
+        	for(int y = 0; y < this.SIZE_Y; y++) {
+        		this.grilleEntites[x][y] = new Wall(this,new Point(x,y));
+        	}
+        }
+        for(int y = this.map.SIZE_Y; y < this.SIZE_Y; y++) {
+        	for(int x = 0; x < this.SIZE_Y; x++) {
+        		this.grilleEntites[x][y] = new Wall(this,new Point(x,y));
+        	}
         }
 
     	

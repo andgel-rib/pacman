@@ -36,7 +36,7 @@ public class Jeu extends Observable implements Runnable {
     	this.map = map;
     	int xMap = this.map.getSIZE_X();
     	int yMap = this.map.getSIZE_Y();
-    	int max  = Math.max(xMap, yMap); // la map serra un carré
+    	int max  = Math.max(xMap, yMap); // la map serra un carrï¿½
     	this.SIZE_X = max;
     	this.SIZE_Y = max;
     	this.grilleEntites = new Entite[this.SIZE_X][this.SIZE_Y];
@@ -59,7 +59,7 @@ public class Jeu extends Observable implements Runnable {
     }
     
     private void initialisationDesEntites() {
-        for(int x = 0; x < this.SIZE_X; x++) { // placer pacgum partout
+        for(int x = 0; x < this.SIZE_X-3; x++) { // placer pacgum partout
             for(int y = 0; y < this.SIZE_Y; y++) {
                 Pacgum pg = new Pacgum(this, new Point(x, y));
                 this.grilleEntites[x][y] = pg;

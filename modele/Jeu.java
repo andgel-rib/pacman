@@ -133,16 +133,17 @@ public class Jeu extends Observable implements Runnable {
         if(objetALaPosition(pCourant) instanceof Pacman && objetALaPosition(pCible) instanceof Pacgum){
             this.score += Pacgum.getValeur();
         }
-        
-        if (contenuDansGrille(pCible) && (objetALaPosition(pCible) == null ||
-                objetALaPosition(pCible) instanceof Pacgum ||
-                objetALaPosition(pCible) instanceof Pacman)) { // Pour manger pacman / pour perdre
-            deplacerEntite(pCourant, pCible, e);
-            retour = true;
-        } else if (objetALaPosition(pCible) instanceof Fantome && e instanceof Pacman) {
+        if (objetALaPosition(pCible) instanceof Fantome && e instanceof Pacman) {
             this.grilleEntites[positionOfPacMan.x][positionOfPacMan.y] = null;
             retour = true;
-        } else {
+        }
+        else if (contenuDansGrille(pCible) && (objetALaPosition(pCible) == null ||
+                objetALaPosition(pCible) instanceof Pacgum ||
+                objetALaPosition(pCible) instanceof Pacman)) { // Pour manger pacman / pour perdre
+        	deplacerEntite(pCourant, pCible, e);
+            retour = true;
+        }
+        else {
             retour = false;
         }
         return retour;

@@ -7,6 +7,7 @@ public class Map {
 	protected int SIZE_Y;
 	protected Point[] walls = {};
 	protected Point[] spawnFantomes = {};
+	protected Point[] exeptionsVides = {};
 	
 	public Map(int SIZE_X,int SIZE_Y) {
 		this.SIZE_X = SIZE_X;
@@ -31,5 +32,9 @@ public class Map {
 
 	public Point[] pacgums() {
 		return spawnFantomes;
+	}
+
+	public Point[] getExeptionsVides() {
+		return exeptionsVides;
 	}
 }

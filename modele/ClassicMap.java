@@ -291,8 +291,30 @@ public class ClassicMap extends Map {
 				new Point(25,30),new Point(26,30),
 		};
 		this.spawnFantomes = new Point[]{
-			new Point(11, 13),
-			new Point(14, 13)
+				new Point(11, 13),
+				new Point(14, 13)
+		};
+		this.exeptionsVides = new Point[]{
+				new Point(11, 13),
+				new Point(12, 13),
+				new Point(13, 13),
+				new Point(14, 13),
+				new Point(15, 13),
+				new Point(16, 13),
+				new Point(11, 14),
+				new Point(12, 14),
+				new Point(13, 14),
+				new Point(14, 14),
+				new Point(15, 14),
+				new Point(16, 14),
+				new Point(11, 15),
+				new Point(12, 15),
+				new Point(13, 15),
+				new Point(14, 15),
+				new Point(15, 15),
+				new Point(16, 15),
+				new Point(13, 12),
+				new Point(14, 12)
 		};
 	}
 }

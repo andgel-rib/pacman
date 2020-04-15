@@ -36,18 +36,22 @@ public class Jeu extends Observable implements Runnable {
     	this.map = map;
     	int xMap = this.map.getSIZE_X();
     	int yMap = this.map.getSIZE_Y();
-    	int max  = Math.max(xMap, yMap); // la map serra un carré
+    	int max  = Math.max(xMap, yMap); // la map serra un carrï¿½
     	this.SIZE_X = max;
     	this.SIZE_Y = max;
     	this.grilleEntites = new Entite[this.SIZE_X][this.SIZE_Y];
         initialisationDesEntites();
     }
-    
+
     public Entite getEntiteAvecPosition(int x, int y) {
-    	if(this.contenuDansGrille(new Point(x,y)))
-    		return this.grilleEntites[x][y];
-    	else
-    		return null;
+        if(this.contenuDansGrille(new Point(x,y)))
+            return this.grilleEntites[x][y];
+        else
+            return null;
+    }
+
+    public void setEntiteAvecPosition(Entite e, int x, int y) {
+        this.grilleEntites[x][y] = e;
     }
 
     public int getScore() {
@@ -59,18 +63,25 @@ public class Jeu extends Observable implements Runnable {
     }
     
     private void initialisationDesEntites() {
-        for(int x = 0; x < this.SIZE_X; x++) { // placer pacgum partout
+        for(int x = 0; x < this.SIZE_X-3; x++) { // placer pacgum partout
             for(int y = 0; y < this.SIZE_Y; y++) {
                 Pacgum pg = new Pacgum(this, new Point(x, y));
                 this.grilleEntites[x][y] = pg;
             }
         };
 
-    	for(Point p : this.map.getWalls()) {
-    		if(this.contenuDansGrille(p)) {
-    			this.grilleEntites[p.x][p.y] = new Wall(this,p);
-    		}
-    	}
+        for(Point p : this.map.getExeptionsVides()) {
+            if(this.contenuDansGrille(p)) {
+                this.grilleEntites[p.x][p.y] = null;
+            }
+        }
+
+        for(Point p : this.map.getWalls()) {
+            if(this.contenuDansGrille(p)) {
+                this.grilleEntites[p.x][p.y] = new Wall(this,p);
+            }
+        }
+
     	
         pm = new Pacman(this,new Point(12,17));
         this.grilleEntites[12][17] = pm;
@@ -236,7 +247,7 @@ public class Jeu extends Observable implements Runnable {
     {
         for(int x = 0; x < this.SIZE_X; x++) {
             for(int y = 0; y < this.SIZE_Y; y++) {
-                if(this.grilleEntites[x][y] instanceof Pacgum){
+                if(this.grilleEntites[x][y] instanceof Pacgum || (this.grilleEntites[x][y] instanceof Fantome && ((Fantome) this.grilleEntites[x][y]).getEntiteARestorer() instanceof Pacgum)){
                     return false;
                 }
             }

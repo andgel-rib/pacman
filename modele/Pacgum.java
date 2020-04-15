@@ -12,10 +12,14 @@ import java.awt.Point;
  * 
  */
 public class Pacgum extends Entite {
-
+    private static int valeur = 1;
+    
     public Pacgum(Jeu jeu, Point p)
     {
         super(jeu, false, p);
     }
-  
+
+    public static int getValeur() {
+        return valeur;
+    }
 }

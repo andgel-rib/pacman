@@ -128,6 +128,10 @@ public class Jeu extends Observable implements Runnable {
         boolean retour;
         Point pCourant = e.getPosition();
         Point pCible = calculerPointCible(pCourant, d);
+
+        if(objetALaPosition(pCourant) instanceof Pacman && objetALaPosition(pCible) instanceof Pacgum){
+            this.score += Pacgum.getValeur();
+        }
         
         if (contenuDansGrille(pCible) && (objetALaPosition(pCible) == null ||
                 objetALaPosition(pCible) instanceof Pacgum ||

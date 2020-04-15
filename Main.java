@@ -1,7 +1,6 @@
-
 import VueControleur.*;
+import modele.ClassicMap;
 import modele.Jeu;
-import modele.Pacman;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -16,8 +15,7 @@ import modele.Pacman;
 public class Main {
     public static void main(String[] args) {
         
-        Jeu jeu = new Jeu();
-        
+        Jeu jeu = new Jeu(new ClassicMap());
         
         Controleur c = new Controleur(jeu);
         

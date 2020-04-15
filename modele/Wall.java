@@ -5,10 +5,16 @@
  */
 package modele;
 
-/** Type énuméré des directions : les directions correspondent à un ensemble borné de valeurs, connu à l'avance
+import java.awt.*;
+
+/**
  *
- * @author freder
  */
-public enum Direction {
-    haut, bas, gauche, droite
+public class Wall extends Entite {
+
+    public Wall(Jeu jeu, Point p)
+    {
+        super(jeu, false, p);
+    }
+  
 }

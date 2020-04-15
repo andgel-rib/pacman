@@ -5,8 +5,7 @@
  */
 package modele;
 
-import java.util.Random;
-
+import java.awt.Point;
 
 
 /**
@@ -14,20 +13,23 @@ import java.util.Random;
  * @author fred
  */
 public class Pacman extends Entite {
-
-    public Pacman(Jeu _jeu) {
-        super(_jeu);
-        d = Direction.droite;
-
+	private Direction direction = Direction.droite;
+	
+    public Pacman(Jeu jeu, Point p) {
+        super(jeu,true,p);
     }
     
-    public void setDirection(Direction _d) {
-        d = _d;
+    public void seDeplacer() {
+    	if(this.direction != null);
+    		this.jeu.deplacerEntite(this, this.direction);
     }
 
-    @Override
-    public void choixDirection() {
-        
-    }
+	public void changerDirection(Direction d) {
+		if(d == null) return;
+		this.direction = d;
+	}
 
+	public Direction getDirection() {
+		return direction;
+	}
 }

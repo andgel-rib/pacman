@@ -17,22 +17,25 @@ public class Controleur implements Observer {
 	  public Controleur(Jeu jeu) {
 		  this.jeu = jeu;
 		  
-		  this.vue = new Vue(this.jeu.SIZE_X,this.jeu.SIZE_Y,this);
+		  this.vue = new Vue(this.jeu.getSIZE_X(),this.jeu.getSIZE_Y(),this);
 		  
 	      this.vue.setVisible(true);
 	  }
 	  
-	  public void setPacManDirection(Direction d) {
-		  this.jeu.getPacman().setDirection(d);
+	  public void deplacerPacMan(Direction d) {
+		  this.jeu.getPacman().changerDirection(d);
+		  this.vue.turnPacmanView(d);
 	  }
 	  
 	  public Entite getEntite(int x,int y) {
-		  return this.jeu.getGrille()[x][y];
+		  return this.jeu.getEntiteAvecPosition(x, y);
 	  }
 
 	@Override
 	public void update(Observable o, Object arg) {
-		this.vue.mettreAJourAffichage();	
-	}
-		
+		this.vue.mettreAJourAffichage();
+		if (this.jeu.gameFinished()){
+			this.vue.gameFinishedAlert(this.jeu.gameWin(),this.jeu.getScore());
+		}
+	}		
 }

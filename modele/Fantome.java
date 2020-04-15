@@ -18,6 +18,8 @@ public class Fantome extends Entite {
 	
     private Random r = new Random();
 
+    private Entite entiteARestorer = null;
+
     public Fantome(Jeu jeu, Point p) {
         super(jeu,true,p);
         this.direction = Direction.droite;
@@ -26,7 +28,19 @@ public class Fantome extends Entite {
 	@Override
 	public void seDeplacer() {
 		this.dijkstra();
+
+		Point pointAvDeplacement = this.position;
+		Entite entiteMangee = this.jeu.getEntiteAvecPosition(this.jeu.calculerPointCible(this.position,this.direction).x, this.jeu.calculerPointCible(this.position,this.direction).y);
+
 		this.jeu.deplacerEntite(this, this.direction);
+
+		if (entiteMangee instanceof Pacgum){
+			Entite entiteARestorer = entiteMangee;
+			this.jeu.setEntiteAvecPosition(entiteARestorer, pointAvDeplacement.x, pointAvDeplacement.y);
+			this.entiteARestorer = entiteARestorer;
+		}
+
+
 	}
 	
 	private void PacManHuntingMode() { // on va essayer de chasser pac man en choisissant une direction qui nous rapproche de lui
@@ -53,6 +67,7 @@ public class Fantome extends Entite {
 		int minDist = 0;
 		Direction direction = null;
 		for(Direction d : availableDirections) {
+			System.out.println(availableDirections);
 			HashSet<Point> explored = new HashSet<Point>();
 			explored.add(this.position);
 			if(direction == null)
@@ -66,7 +81,7 @@ public class Fantome extends Entite {
 		System.out.println(minDist);
 		this.direction = direction;
 	}
-	
+
 	private int explore(HashSet<Point>explored, Point p, int distance) {
 		if(p.equals(this.jeu.getPacman().getPosition()))
 			return distance;
@@ -82,9 +97,13 @@ public class Fantome extends Entite {
 				if(distDir != -1 && (minDist == -1 || distDir < minDist))
 					minDist = distDir;
 			}
-			
+
 		}
 		return minDist;
+	}
+
+	public Entite getEntiteARestorer() {
+		return entiteARestorer;
 	}
 
 	public Direction getDirection() {

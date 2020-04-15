@@ -125,6 +125,7 @@ public class Jeu extends Observable implements Runnable {
     /** Si le déclacement de l'entité est autorisé (pas de mur ou autre entité), il est réalisé
      */
     public boolean deplacerEntite(Entite e, Direction d) {
+    	Point positionOfPacMan = this.getPacman().getPosition();
         boolean retour;
         Point pCourant = e.getPosition();
         Point pCible = calculerPointCible(pCourant, d);
@@ -135,7 +136,7 @@ public class Jeu extends Observable implements Runnable {
             deplacerEntite(pCourant, pCible, e);
             retour = true;
         } else if (objetALaPosition(pCible) instanceof Fantome && e instanceof Pacman) {
-            this.grilleEntites[e.position.x][e.position.y] = null;
+            this.grilleEntites[positionOfPacMan.x][positionOfPacMan.y] = null;
             retour = true;
         } else {
             retour = false;

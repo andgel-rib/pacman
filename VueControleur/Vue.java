@@ -22,7 +22,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
  *  (1) Vue : proposer une représentation graphique de l'application (cases graphiques, etc.)
  *  (2) Controleur : écouter les évènements clavier et déclencher le traitement adapté sur le modèle (flèches direction Pacman, etc.))
  *
- * @author freder
+ *
  */
 public class Vue extends JFrame{
 

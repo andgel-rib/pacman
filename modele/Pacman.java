@@ -10,7 +10,7 @@ import java.awt.Point;
 
 /**
  *
- * @author fred
+ *
  */
 public class Pacman extends Entite {
 	private Direction direction = Direction.droite;

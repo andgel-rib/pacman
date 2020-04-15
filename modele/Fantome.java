@@ -12,7 +12,7 @@ import java.util.HashSet;
 
 /**
  *
- * @author freder
+ *
  */
 public class Fantome extends Entite {
 	private Direction direction;
@@ -63,7 +63,6 @@ public class Fantome extends Entite {
 	}*/
 	
 	public void iaBroken() {
-		System.out.println("NEW TICK");
 		HashSet<Direction> availableDirections = this.jeu.getAvailableDirections(this.position);
 		int minDist = 0;
 		Direction direction = null;
@@ -77,9 +76,6 @@ public class Fantome extends Entite {
 				minDist = dirDist;
 				direction = d;
 			}
-			System.out.print(d);
-			System.out.println(" MinDist: " + minDist);
-			System.out.println(" DirDist: " + dirDist);
 			
 		}
 		this.direction = direction;

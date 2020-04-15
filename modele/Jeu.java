@@ -9,13 +9,14 @@ import java.awt.Point;
 import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.HashMap;
 import java.util.HashSet;
 
 /** La classe Jeu a deux fonctions 
  *  (1) Gérer les aspects du jeu : condition de défaite, victoire, nombre de vies
  *  (2) Gérer les coordonnées des entités du monde : déplacements, collisions, perception des entités, ... 
  *
- * @author freder
+ *
  */
 public class Jeu extends Observable implements Runnable {
 	private int ticks = 0; // le temps qui passe
@@ -63,7 +64,7 @@ public class Jeu extends Observable implements Runnable {
     }
     
     private void initialisationDesEntites() {
-        for(int x = 0; x < this.SIZE_X-3; x++) { // placer pacgum partout
+        for(int x = 0; x < this.SIZE_X; x++) { // placer pacgum partout
             for(int y = 0; y < this.SIZE_Y; y++) {
                 Pacgum pg = new Pacgum(this, new Point(x, y));
                 this.grilleEntites[x][y] = pg;
@@ -81,17 +82,28 @@ public class Jeu extends Observable implements Runnable {
                 this.grilleEntites[p.x][p.y] = new Wall(this,p);
             }
         }
+        
+        for(int x = this.map.SIZE_X; x < this.SIZE_X; x++) {
+        	for(int y = 0; y < this.SIZE_Y; y++) {
+        		this.grilleEntites[x][y] = new Wall(this,new Point(x,y));
+        	}
+        }
+        for(int y = this.map.SIZE_Y; y < this.SIZE_Y; y++) {
+        	for(int x = 0; x < this.SIZE_Y; x++) {
+        		this.grilleEntites[x][y] = new Wall(this,new Point(x,y));
+        	}
+        }
 
     	
         pm = new Pacman(this,new Point(12,17));
         this.grilleEntites[12][17] = pm;
 
-        /*for (Point spawnFantome: this.map.getSpawnFantomes()){
+        for (Point spawnFantome: this.map.getSpawnFantomes()){
             Fantome f = new Fantome(this,spawnFantome);
             this.grilleEntites[spawnFantome.x][spawnFantome.y] = f;
-        }*/
-        Fantome f = new Fantome(this,new Point(1,1));
-        this.grilleEntites[1][1] = f;
+        }
+        /*Fantome f = new Fantome(this,new Point(1,1));
+        this.grilleEntites[1][1] = f;*/
     }
     
     
@@ -124,25 +136,29 @@ public class Jeu extends Observable implements Runnable {
     
     /** Si le déclacement de l'entité est autorisé (pas de mur ou autre entité), il est réalisé
      */
-    public boolean deplacerEntite(Entite e, Direction d) {
+    public synchronized boolean deplacerEntite(Entite e, Direction d) {
     	Point positionOfPacMan = this.getPacman().getPosition();
         boolean retour;
         Point pCourant = e.getPosition();
         Point pCible = calculerPointCible(pCourant, d);
-
+        HashMap<Point,Point> tpTrigger = this.map.getTpTrigger();
+        if(tpTrigger.containsKey(pCible)) {
+        	pCible = tpTrigger.get(pCible);
+        }
         if(objetALaPosition(pCourant) instanceof Pacman && objetALaPosition(pCible) instanceof Pacgum){
             this.score += Pacgum.getValeur();
         }
-        
-        if (contenuDansGrille(pCible) && (objetALaPosition(pCible) == null ||
-                objetALaPosition(pCible) instanceof Pacgum ||
-                objetALaPosition(pCible) instanceof Pacman)) { // Pour manger pacman / pour perdre
-            deplacerEntite(pCourant, pCible, e);
-            retour = true;
-        } else if (objetALaPosition(pCible) instanceof Fantome && e instanceof Pacman) {
+        if (objetALaPosition(pCible) instanceof Fantome && e instanceof Pacman) {
             this.grilleEntites[positionOfPacMan.x][positionOfPacMan.y] = null;
             retour = true;
-        } else {
+        }
+        else if (contenuDansGrille(pCible) && (objetALaPosition(pCible) == null ||
+                objetALaPosition(pCible) instanceof Pacgum ||
+                objetALaPosition(pCible) instanceof Pacman)) { // Pour manger pacman / pour perdre
+        	deplacerEntite(pCourant, pCible, e);
+            retour = true;
+        }
+        else {
             retour = false;
         }
         return retour;
@@ -215,8 +231,9 @@ public class Jeu extends Observable implements Runnable {
 	
 	public boolean checkDirectionWithPosition(Point position,Direction direction) {
 		Point target = this.calculerPointCible(position, direction);
-		if(!this.contenuDansGrille(target)) return false;
-		return !(this.grilleEntites[target.x][target.y] instanceof Wall);
+		if(!this.contenuDansGrille(target) ||
+			this.grilleEntites[target.x][target.y] instanceof Wall	) return false;
+		return true;
 	}
 
     @Override

@@ -16,7 +16,7 @@ import java.util.HashSet;
  *  (1) Gérer les aspects du jeu : condition de défaite, victoire, nombre de vies
  *  (2) Gérer les coordonnées des entités du monde : déplacements, collisions, perception des entités, ... 
  *
- * @author freder
+ *
  */
 public class Jeu extends Observable implements Runnable {
 	private int ticks = 0; // le temps qui passe
@@ -136,7 +136,7 @@ public class Jeu extends Observable implements Runnable {
     
     /** Si le déclacement de l'entité est autorisé (pas de mur ou autre entité), il est réalisé
      */
-    public boolean deplacerEntite(Entite e, Direction d) {
+    public synchronized boolean deplacerEntite(Entite e, Direction d) {
     	Point positionOfPacMan = this.getPacman().getPosition();
         boolean retour;
         Point pCourant = e.getPosition();

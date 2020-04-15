@@ -9,7 +9,7 @@ import java.awt.Point;
 
 /**
  *
- * @author freder
+ *
  */
 public abstract class Entite implements Runnable {
 	

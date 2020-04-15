@@ -252,7 +252,8 @@ public class ClassicMap extends Map {
 				new Point(0,7),new Point(0,8),
 				new Point(0,9),new Point(0,10),
 				new Point(0,11),new Point(0,12),
-				new Point(0,13),new Point(0,14),
+				new Point(0,13),
+				//new Point(0,14), //mur tp
 				new Point(0,15),new Point(0,16),
 				new Point(0,17),new Point(0,18),
 				new Point(0,19),new Point(0,20),
@@ -267,7 +268,8 @@ public class ClassicMap extends Map {
 				new Point(27,7),new Point(27,8),
 				new Point(27,9),new Point(27,10),
 				new Point(27,11),new Point(27,12),
-				new Point(27,13),new Point(27,14),
+				new Point(27,13),
+				//new Point(27,14), mur tp
 				new Point(27,15),new Point(27,16),
 				new Point(27,17),new Point(27,18),
 				new Point(27,19),new Point(27,20),
@@ -294,7 +296,13 @@ public class ClassicMap extends Map {
 				new Point(11, 13),
 				new Point(14, 13)
 		};
+		this.tpTrigger.put(new Point(0,14),new Point(27,14));
+		this.tpTrigger.put(new Point(27,14),new Point(0,14));
+
 		this.exeptionsVides = new Point[]{
+				new Point(0,14), //triggers
+				new Point(27,14),
+
 				new Point(11, 13),
 				new Point(12, 13),
 				new Point(13, 13),
@@ -316,7 +324,5 @@ public class ClassicMap extends Map {
 				new Point(13, 12),
 				new Point(14, 12)
 		};
-		this.tpTrigger.put(new Point(1,14),new Point(26,14));
-		this.tpTrigger.put(new Point(26,14),new Point(1,14));
 	}
 }

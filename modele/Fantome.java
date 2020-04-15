@@ -12,7 +12,7 @@ import java.util.HashSet;
 
 /**
  *
- * @author freder
+ *
  */
 public class Fantome extends Entite {
 	private Direction direction;

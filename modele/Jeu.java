@@ -98,12 +98,12 @@ public class Jeu extends Observable implements Runnable {
         pm = new Pacman(this,new Point(12,17));
         this.grilleEntites[12][17] = pm;
 
-        /*for (Point spawnFantome: this.map.getSpawnFantomes()){
+        for (Point spawnFantome: this.map.getSpawnFantomes()){
             Fantome f = new Fantome(this,spawnFantome);
             this.grilleEntites[spawnFantome.x][spawnFantome.y] = f;
-        }*/
-        Fantome f = new Fantome(this,new Point(1,1));
-        this.grilleEntites[1][1] = f;
+        }
+        /*Fantome f = new Fantome(this,new Point(1,1));
+        this.grilleEntites[1][1] = f;*/
     }
     
     

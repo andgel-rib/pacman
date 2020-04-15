@@ -6,8 +6,9 @@
 package modele;
 
 import java.awt.Point;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Random;
+//import java.util.Random;
 
 /**
  *
@@ -16,7 +17,7 @@ import java.util.Random;
 public class Fantome extends Entite {
 	private Direction direction;
 	
-    private Random r = new Random();
+    //private Random r = new Random();
 
     public Fantome(Jeu jeu, Point p) {
         super(jeu,true,p);
@@ -25,11 +26,11 @@ public class Fantome extends Entite {
 
 	@Override
 	public void seDeplacer() {
-		this.dijkstra();
+		this.iaBroken();
 		this.jeu.deplacerEntite(this, this.direction);
 	}
 	
-	private void PacManHuntingMode() { // on va essayer de chasser pac man en choisissant une direction qui nous rapproche de lui
+	/*private void PacManHuntingMode() { // on va essayer de chasser pac man en choisissant une direction qui nous rapproche de lui
 		Point manPosition = this.jeu.getPacman().getPosition();
 		HashSet<Direction> availableDirections = this.jeu.getAvailableDirections(this.position);
 		int randomTired = this.r.nextInt(20);
@@ -46,15 +47,16 @@ public class Fantome extends Entite {
 			int random = this.r.nextInt(availableDirections.size());
 			this.direction = (Direction)availableDirections.toArray()[random];
 		}
-	}
+	}*/
 	
-	public void dijkstra() {
+	public void iaBroken() {
+		System.out.println("NEW TICK");
 		HashSet<Direction> availableDirections = this.jeu.getAvailableDirections(this.position);
 		int minDist = 0;
 		Direction direction = null;
 		for(Direction d : availableDirections) {
-			HashSet<Point> explored = new HashSet<Point>();
-			explored.add(this.position);
+			HashMap<Point,Integer> explored = new HashMap<Point,Integer>();
+			explored.put(this.position,new Integer(0));
 			if(direction == null)
 				direction = d;
 			int dirDist = this.explore(explored,this.jeu.calculerPointCible(this.position, d),1);
@@ -62,26 +64,33 @@ public class Fantome extends Entite {
 				minDist = dirDist;
 				direction = d;
 			}
+			System.out.print(d);
+			System.out.println(" MinDist: " + minDist);
+			System.out.println(" DirDist: " + dirDist);
+			
 		}
-		System.out.println(minDist);
 		this.direction = direction;
 	}
 	
-	private int explore(HashSet<Point>explored, Point p, int distance) {
+	private int explore(HashMap<Point,Integer>explored, Point p, int distance) {
 		if(p.equals(this.jeu.getPacman().getPosition()))
 			return distance;
-		explored.add(p);
+		explored.put(p,new Integer(distance));
 		HashSet<Direction> availableDirections = this.jeu.getAvailableDirections(p);
-		if(availableDirections.isEmpty()) {
-			return -1;
-		}
 		int minDist = -1;
 		for(Direction d : availableDirections) {
-			if(!explored.contains(this.jeu.calculerPointCible(p, d))) {
-				int distDir = explore(explored, this.jeu.calculerPointCible(p, d),distance+1);
+			Point target = this.jeu.calculerPointCible(p, d);
+			Integer distP = explored.get(target);
+			if(distP == null) {
+				int distDir = explore(explored,target,distance+1);
 				if(distDir != -1 && (minDist == -1 || distDir < minDist))
 					minDist = distDir;
-			}
+			} else if(distP.intValue() > distance){
+				explored.remove(this.jeu.calculerPointCible(p, d));
+				int distDir = explore(explored, target,distance+1);
+				if(distDir != -1 && (minDist == -1 || distDir < minDist))
+					minDist = distDir;
+			}	
 			
 		}
 		return minDist;

@@ -316,5 +316,7 @@ public class ClassicMap extends Map {
 				new Point(13, 12),
 				new Point(14, 12)
 		};
+		this.tpTrigger.put(new Point(1,14),new Point(26,14));
+		this.tpTrigger.put(new Point(26,14),new Point(1,14));
 	}
 }

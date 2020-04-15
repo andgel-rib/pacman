@@ -9,6 +9,7 @@ import java.awt.Point;
 import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.HashMap;
 import java.util.HashSet;
 
 /** La classe Jeu a deux fonctions 
@@ -129,7 +130,10 @@ public class Jeu extends Observable implements Runnable {
         boolean retour;
         Point pCourant = e.getPosition();
         Point pCible = calculerPointCible(pCourant, d);
-
+        HashMap<Point,Point> tpTrigger = this.map.getTpTrigger();
+        if(tpTrigger.containsKey(pCible)) {
+        	pCible = tpTrigger.get(pCible);
+        }
         if(objetALaPosition(pCourant) instanceof Pacman && objetALaPosition(pCible) instanceof Pacgum){
             this.score += Pacgum.getValeur();
         }
@@ -216,8 +220,9 @@ public class Jeu extends Observable implements Runnable {
 	
 	public boolean checkDirectionWithPosition(Point position,Direction direction) {
 		Point target = this.calculerPointCible(position, direction);
-		if(!this.contenuDansGrille(target)) return false;
-		return !(this.grilleEntites[target.x][target.y] instanceof Wall);
+		if(!this.contenuDansGrille(target) ||
+			this.grilleEntites[target.x][target.y] instanceof Wall	) return false;
+		return true;
 	}
 
     @Override

@@ -1,6 +1,7 @@
 package modele;
 
 import java.awt.Point;
+import java.util.HashMap;
 
 public class Map {
 	protected int SIZE_X;
@@ -8,6 +9,7 @@ public class Map {
 	protected Point[] walls = {};
 	protected Point[] spawnFantomes = {};
 	protected Point[] exeptionsVides = {};
+	protected HashMap<Point,Point> tpTrigger = new HashMap<Point,Point>(); // Source -> Target
 	
 	public Map(int SIZE_X,int SIZE_Y) {
 		this.SIZE_X = SIZE_X;
@@ -36,5 +38,9 @@ public class Map {
 
 	public Point[] getExeptionsVides() {
 		return exeptionsVides;
+	}
+	
+	public HashMap<Point,Point> getTpTrigger(){
+		return this.tpTrigger;
 	}
 }

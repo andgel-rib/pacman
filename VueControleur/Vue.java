@@ -5,19 +5,12 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
+import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 import modele.*;
 
@@ -81,24 +74,22 @@ public class Vue extends JFrame{
     }
 
     private void chargerLesIcones() {
-        icoPacMan = chargerIcone("Images/Pacman.png");
+        icoPacMan = chargerIcone("/Images/Pacman.png");
         icoPacManAnime = icoPacMan;
-        icoCouloir = chargerIcone("Images/Couloir.png");
-        icoFantome = chargerIcone("Images/Fantome.png");
-        icoPacgum = chargerIcone("Images/Pacgum.png");
-        icoWall = chargerIcone("Images/Wall.png");
+        icoCouloir = chargerIcone("/Images/Couloir.png");
+        icoFantome = chargerIcone("/Images/Fantome.png");
+        icoPacgum = chargerIcone("/Images/Pacgum.png");
+        icoWall = chargerIcone("/Images/Wall.png");
     }
 
-    private ImageIcon chargerIcone(String urlIcone) {
-
-        BufferedImage image = null;
-        try {
-            image = ImageIO.read(new File(urlIcone));
-        } catch (IOException ex) {
-            Logger.getLogger(Vue.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-        return new ImageIcon(image);
+    private ImageIcon chargerIcone(String path) {
+    	 URL imgURL = Vue.class.getResource(path);
+         if (imgURL != null) {
+             return new ImageIcon(imgURL);
+         } else {
+             System.err.println("Couldn't find file: " + path);
+             return null;
+         }
     }
 
     private void placerLesComposantsGraphiques() {

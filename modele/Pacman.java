@@ -6,8 +6,6 @@
 package modele;
 
 import java.awt.Point;
-import java.util.Random;
-
 
 
 /**

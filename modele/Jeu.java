@@ -6,7 +6,6 @@
 package modele;
 
 import java.awt.Point;
-import java.util.HashMap;
 import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
